@@ -1,4 +1,6 @@
-function constructor(name, ...)
+local exports = {}
+
+function exports.constructor(name, ...)
   local args = {...}
   if _G[name] then error(name.." already exists in namespace") end
   local mt = {
@@ -23,7 +25,7 @@ function constructor(name, ...)
   return cons
 end
 
-function match(cons, cases)
+function exports.match(cons, cases)
   if not getmetatable(cons) or not getmetatable(cons).__name then error("invalid constructor to match") end
   local case = cases[getmetatable(cons).__name]
   
@@ -34,3 +36,5 @@ function match(cons, cases)
     error("non-exhaustive pattern, missing: "..cons.__name)
   end
 end
+
+return module(exports)
